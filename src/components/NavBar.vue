@@ -8,7 +8,7 @@
         <nav class="hidden sm:flex items-center gap-4 text-sm text-black/70">
           <RouterLink to="/" class="hover:text-black">Product List</RouterLink>
           <RouterLink to="/orders" class="hover:text-black">My Orders</RouterLink>
-          <RouterLink v-if="auth.user.email === 'leo@email.com'" to="/maintenance" class="hover:text-black">Maintenance</RouterLink>
+          <RouterLink v-if="auth.user.email === 'leo@email.com'" to="/maintenance" class="hover:text-black">Product Maintenance</RouterLink>
 
         </nav>
       </div>

@@ -1,3 +1,4 @@
+<!-- src/pages/orders/OrderDetails.vue -->
 <template>
   <div class="min-h-screen bg-slate-50">
     <NavBar />
@@ -10,22 +11,27 @@
         </div>
 
         <div class="flex items-center gap-2" v-if="order">
-          <span class="px-2 py-0.5 rounded-full text-xs border" :class="statusCls(order.status)">
+          <span
+              class="px-2 py-0.5 rounded-full text-xs border"
+              :class="statusCls(order.status)"
+          >
             {{ order.status }}
           </span>
+
           <button
-            v-if="order.status === 'pending'"
-            class="px-3 py-2 rounded-xl border hover:bg-black hover:text-white"
-            :disabled="completeMut.isPending.value"
-            @click="completeMut.mutate()"
+              v-if="order.status === 'pending'"
+              class="px-3 py-2 rounded-xl border hover:bg-black hover:text-white"
+              :disabled="completeMut.isPending.value"
+              @click="completeMut.mutate()"
           >
             Complete
           </button>
+
           <button
-            v-if="order.status === 'pending'"
-            class="px-3 py-2 rounded-xl border border-red-200 text-red-700 hover:bg-red-50"
-            :disabled="cancelMut.isPending.value"
-            @click="cancelMut.mutate()"
+              v-if="order.status === 'pending'"
+              class="px-3 py-2 rounded-xl border border-red-200 text-red-700 hover:bg-red-50"
+              :disabled="cancelMut.isPending.value"
+              @click="cancelMut.mutate()"
           >
             Cancel
           </button>
@@ -36,36 +42,75 @@
       <div v-if="isError" class="mt-6 text-sm text-red-600">Failed to load order.</div>
 
       <div v-if="order" class="mt-6 grid lg:grid-cols-3 gap-4">
+        <!-- PRODUCTS -->
         <div class="lg:col-span-2 space-y-3">
-          <div v-for="p in order.products ?? []" :key="p.id" class="border rounded-2xl bg-white p-4">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <div class="font-semibold">{{ p.name }}</div>
-                <div class="text-xs text-black/60">{{ p.sku }}</div>
+          <div
+              v-for="p in order.products ?? []"
+              :key="p.id"
+              class="border rounded-2xl bg-white p-4"
+          >
+            <div class="flex gap-4">
+              <!-- IMAGE PLACEHOLDER -->
+              <div class="w-16 h-16 bg-slate-200 rounded-lg flex items-center justify-center shrink-0">
+                <span class="text-[10px] text-slate-500">Image</span>
               </div>
-              <div class="text-sm font-semibold">{{ formatMoney(p.pivot.unit_price) }}</div>
-            </div>
 
-            <div class="mt-3 flex items-center justify-between text-sm text-black/70">
-              <div>Qty: <span class="font-medium text-black">{{ p.pivot.quantity }}</span></div>
-              <div>Line: <span class="font-semibold text-black">{{ formatMoney(Number(p.pivot.unit_price) * p.pivot.quantity) }}</span></div>
+              <!-- DETAILS -->
+              <div class="flex-1">
+                <div class="flex items-start justify-between gap-3">
+                  <div>
+                    <div class="font-semibold">{{ p.name }}</div>
+                    <div class="text-xs text-black/60">{{ p.sku }}</div>
+                  </div>
+
+                  <div class="text-sm font-semibold">
+                    {{ formatMoney(p.pivot.unit_price) }}
+                  </div>
+                </div>
+
+                <div class="mt-3 flex items-center justify-between text-sm text-black/70">
+                  <div>
+                    Qty:
+                    <span class="font-medium text-black">
+                      {{ p.pivot.quantity }}
+                    </span>
+                  </div>
+
+                  <div>
+                    Line:
+                    <span class="font-semibold text-black">
+                      {{ formatMoney(Number(p.pivot.unit_price) * p.pivot.quantity) }}
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
+        <!-- SUMMARY -->
         <div class="border rounded-2xl bg-white p-4 h-fit">
           <div class="text-sm flex items-center justify-between">
             <span class="text-black/60">Subtotal</span>
             <span class="font-semibold">{{ formatMoney(calcSubtotal(order)) }}</span>
           </div>
-          <div class="text-sm flex items-center justify-between mt-2" v-if="order.gst_amount">
+
+          <div
+              v-if="order.gst_amount"
+              class="text-sm flex items-center justify-between mt-2"
+          >
             <span class="text-black/60">GST</span>
             <span class="font-semibold">{{ formatMoney(order.gst_amount) }}</span>
           </div>
-          <div class="text-sm flex items-center justify-between mt-2" v-if="order.total">
+
+          <div
+              v-if="order.total"
+              class="text-sm flex items-center justify-between mt-2"
+          >
             <span class="text-black/60">Total</span>
             <span class="font-semibold">{{ formatMoney(order.total) }}</span>
           </div>
+
           <div class="text-xs text-black/50 mt-4">
             Created: {{ formatDate(order.created_at) }}
           </div>
@@ -120,7 +165,11 @@ const completeMut = useMutation({
 })
 
 function formatDate(iso: string) {
-  try { return new Date(iso).toLocaleString() } catch { return iso }
+  try {
+    return new Date(iso).toLocaleString()
+  } catch {
+    return iso
+  }
 }
 
 function statusCls(status: string) {
@@ -131,6 +180,9 @@ function statusCls(status: string) {
 
 function calcSubtotal(o: Order) {
   if (o.subtotal) return Number(o.subtotal)
-  return (o.products ?? []).reduce((a, p) => a + Number(p.pivot.unit_price) * p.pivot.quantity, 0)
+  return (o.products ?? []).reduce(
+      (a, p) => a + Number(p.pivot.unit_price) * p.pivot.quantity,
+      0
+  )
 }
 </script>
