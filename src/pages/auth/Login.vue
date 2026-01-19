@@ -2,7 +2,10 @@
   <div class="min-h-screen flex items-center justify-center p-6 bg-slate-50">
     <div class="w-full max-w-md border bg-white rounded-2xl p-6 shadow-sm">
       <h1 class="text-xl font-semibold">Login</h1>
+
       <p class="text-sm text-black/60 mt-1">Sign in to continue.</p>
+
+      <div v-if="error" class="text-sm text-red-600">{{ error }}</div>
 
       <form class="mt-5 space-y-3" @submit.prevent="onSubmit">
         <input v-model="email" class="w-full border rounded-xl px-3 py-2" placeholder="Email" />
@@ -12,7 +15,6 @@
           {{ mutation.isPending.value ? 'Signing in...' : 'Login' }}
         </button>
 
-        <div v-if="error" class="text-sm text-red-600">{{ error }}</div>
 
         <p class="text-sm text-black/70">
           No account?

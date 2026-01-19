@@ -11,7 +11,7 @@
     </div>
 
     <div class="mt-3 flex items-center justify-between">
-      <div class="text-sm font-semibold">{{ formatMoney(product.price) }}</div>
+      <div class="text-xl font-semibold">{{ formatMoney(product.price) }}</div>
       <div class="text-xs text-black/60">Stock: {{ product.stock_quantity }}</div>
     </div>
 

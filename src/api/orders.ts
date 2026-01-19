@@ -25,8 +25,8 @@ export async function createOrder(items: { product_id: number; quantity: number 
   return res.data as Order
 }
 
-export async function fetchOrders() {
-  const res = await http.get('/api/orders')
+export async function fetchOrders(params?: { page?: number }) {
+  const res = await http.get('/api/orders', { params })
   return res.data
 }
 

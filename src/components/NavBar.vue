@@ -16,14 +16,14 @@
         </button>
 
         <RouterLink to="/" class="font-semibold text-lg" @click="closeMobile">
-          Shop
+          Home
         </RouterLink>
 
         <!-- Desktop nav -->
         <nav class="hidden sm:flex items-center gap-4 text-sm text-black/70">
           <RouterLink to="/" class="hover:text-black">Products</RouterLink>
-          <RouterLink to="/maintenance" class="hover:text-black">Maintenance</RouterLink>
           <RouterLink to="/orders" class="hover:text-black">My Orders</RouterLink>
+          <RouterLink to="/maintenance" class="hover:text-black">Maintenance</RouterLink>
         </nav>
       </div>
 
